@@ -48,5 +48,4 @@ frontend/public/images/*
 .github/*/*
 
 .Dockerignore
-Dockerfile
 compose.private.yml
