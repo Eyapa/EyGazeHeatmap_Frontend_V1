@@ -46,7 +46,7 @@ const decodeToken = (token: string) => {
 
 const shutdownWebGazer = async () => {
   if (typeof window !== 'undefined' && window.webgazer) {
-    window.webgazer.end();
+    if (window.webgazer.isReady()) window.webgazer.end();
     
     const video = document.getElementById('webgazerVideoFeed') as HTMLMediaElement;
     if (video && video.srcObject) {
@@ -149,7 +149,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    await shutdownWebGazer();
+    if (typeof window !== 'undefined' && window.webgazer) await shutdownWebGazer();
     setIsAuthenticated(false);
     setIsCalibrated(false);
     setUser(null);
