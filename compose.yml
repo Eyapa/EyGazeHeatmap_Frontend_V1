@@ -1,0 +1,13 @@
+services:
+  backend:
+    image: ghcr.io/your-username/eye-tracker-backend:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/data:/app/data
+      - ./backend/database.db:/app/database.db
+
+  frontend:
+    image: ghcr.io/your-username/eye-tracker-frontend:latest
+    ports:
+      - "80:80"

@@ -49,4 +49,4 @@ frontend/public/images/*
 
 .Dockerignore
 Dockerfile
-compose.yml
+compose.private.yml
