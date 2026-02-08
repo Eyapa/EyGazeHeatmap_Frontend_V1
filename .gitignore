@@ -51,4 +51,4 @@ frontend/public/images/*
 compose.private.yml
 
 # --- OTHERS ---
-*.dev.*
+#*.dev.*
