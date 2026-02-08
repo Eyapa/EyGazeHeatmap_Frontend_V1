@@ -4,6 +4,9 @@ import { Card } from '@/app/components/ui/card';
 import { Button } from '@/app/components/ui/button';
 import { SecureImage } from './SecureImage';
 import { toast } from 'sonner';
+import { API_URL } from '@/app/App';
+
+
 
 export function AdminPanel() {
     const [activeTab, setActiveTab] = useState<'stats' | 'users' | 'heatmaps' | 'logs'>('stats');
@@ -20,8 +23,8 @@ export function AdminPanel() {
         const headers = { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` };
         try {
         const [dbRes, logRes] = await Promise.all([
-            fetch(`${import.meta.env.VITE_API_URL}/admin/dashboard-data`, { headers }),
-            fetch(`${import.meta.env.VITE_API_URL}/admin/logs`, { headers })
+            fetch(`${API_URL}/admin/dashboard-data`, { headers }),
+            fetch(`${API_URL}/admin/logs`, { headers })
         ]);
         if (dbRes.ok) setData(await dbRes.json());
         if (logRes.ok) setLogs(await logRes.text());
@@ -34,7 +37,7 @@ export function AdminPanel() {
 
     const handleDeleteSession = async (sessionId: number) => {
         toast.promise(
-        fetch(`${import.meta.env.VITE_API_URL}/heatmap/delete/${sessionId}`, {
+        fetch(`${API_URL}/heatmap/delete/${sessionId}`, {
             method: 'DELETE',
             headers: { 
             'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import { API_URL } from '@/app/App';
 
 declare global {
   interface Window {
@@ -84,7 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       if (token) {
         try {
-          const response = await fetch(`${import.meta.env.VITE_API_URL}/verify-token`, {
+          const response = await fetch(`${API_URL}/verify-token`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
 

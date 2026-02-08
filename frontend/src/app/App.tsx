@@ -20,6 +20,8 @@ const HomeRedirect = () => {
     : <Navigate to="/live-tracking" replace />;
 };
 
+export const API_URL = "/api";
+
 export default function App() {
   return (
     <AuthProvider>

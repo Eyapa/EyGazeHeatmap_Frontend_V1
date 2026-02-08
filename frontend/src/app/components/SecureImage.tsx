@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Skeleton } from '@/app/components/ui/skeleton';
 import { ImageIcon } from 'lucide-react';
+import { API_URL } from '@/app/App';
 
 interface SecureImageProps {
   sessionId: number;
@@ -19,7 +20,7 @@ export function SecureImage({ sessionId, className }: SecureImageProps) {
       try {
         setLoading(true);
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/heatmaps/file/${sessionId}`,
+          `${API_URL}/heatmaps/file/${sessionId}`,
           {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('access_token')}`

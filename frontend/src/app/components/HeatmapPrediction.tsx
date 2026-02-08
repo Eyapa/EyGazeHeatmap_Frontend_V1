@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { useAuth } from './AuthContext';
 import { SecureImage } from './SecureImage';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { API_URL } from '@/app/App';
 
 interface HeatmapSession {
   id: number;
@@ -85,7 +86,7 @@ export function HeatmapPrediction() {
   const fetchSessions = async () => {
     setIsTableLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/heatmap/get_by_user/${user?.id}`, {
+      const response = await fetch(`${API_URL}/heatmap/get_by_user/${user?.id}`, {
         headers: { 
           'Authorization': `Bearer ${localStorage.getItem('access_token')}` 
         }
@@ -107,7 +108,7 @@ export function HeatmapPrediction() {
 
   const checkSession = async (img_name:string) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/heatmap/check/${user?.id}/${img_name}`, {
+      const response = await fetch(`${API_URL}/heatmap/check/${user?.id}/${img_name}`, {
         headers: { 
           'Authorization': `Bearer ${localStorage.getItem('access_token')}` 
         }
@@ -185,7 +186,7 @@ export function HeatmapPrediction() {
     };
 
     toast.promise(
-      fetch(`${import.meta.env.VITE_API_URL}/heatmap/upload`, {
+      fetch(`${API_URL}/heatmap/upload`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -206,7 +207,7 @@ export function HeatmapPrediction() {
 
   const handleDeleteSession = async (sessionId: number) => {
     toast.promise(
-      fetch(`${import.meta.env.VITE_API_URL}/heatmap/delete/${sessionId}`, {
+      fetch(`${API_URL}/heatmap/delete/${sessionId}`, {
         method: 'DELETE',
         headers: { 
           'Content-Type': 'application/json',
