@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/your-username/eye-tracker-backend:latest
+    image: ghcr.io/eyapa/eygazeheatmap_backend_v1:latest
     ports:
       - "8000:8000"
     volumes:
@@ -8,6 +8,6 @@ services:
       - ./backend/database.db:/app/database.db
 
   frontend:
-    image: ghcr.io/your-username/eye-tracker-frontend:latest
+    image: ghcr.io/eyapa/eygazeheatmap_frontend_v1:latest
     ports:
       - "80:80"
