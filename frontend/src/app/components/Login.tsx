@@ -21,13 +21,13 @@ export function Login() {
     setLoading(true);
 
     try {
-      const success = await login(email, password);
-      if (success && user?.role == 1) {
+      const freshUser = await login(email, password);
+      if (freshUser && freshUser?.role == 1) {
         navigate('/live-tracking');
-      } else if (success && user?.role == 2) {
+      } else if (freshUser && freshUser?.role == 2) {
         navigate('/admin');
       } else {
-        setError('Invalid credentials. Try password: demo123');
+        setError('Invalid credentials. please check your email and password.');
       }
     } catch (err) {
       setError('An error occurred. Please try again.');

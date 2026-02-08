@@ -1,6 +1,11 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
+declare global {
+  interface Window {
+    webgazer: any;
+  }
+}
 
 interface User {
   email: string;
@@ -15,7 +20,7 @@ interface AuthContextType {
   isLoading: boolean;
   setIsCalibrated: (calibrated: boolean) => void;
   user: User | null;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<User | false>;
   logout: () => void;
 }
 
@@ -37,6 +42,37 @@ const decodeToken = (token: string) => {
     return JSON.parse(jsonPayload);
   } catch (e) {
     return null;
+  }
+};
+
+const shutdownWebGazer = async () => {
+  if (typeof window !== 'undefined' && window.webgazer) {
+    // 1. Stop WebGazer's internal logic
+    window.webgazer.end();
+    
+    // 2. Manually stop the webcam tracks (This turns off the LED light)
+    const video = document.getElementById('webgazerVideoFeed') as HTMLMediaElement;
+    if (video && video.srcObject) {
+      const stream = video.srcObject as MediaStream;
+      const tracks = stream.getTracks();
+      tracks.forEach(track => track.stop()); // The "Kill" command for the hardware
+      video.srcObject = null;
+    }
+
+    // 3. Remove the elements WebGazer injected into your HTML
+    const webgazerElements = [
+      'webgazerVideoFeed',
+      'webgazerVideoCanvas',
+      'webgazerFaceOverlay',
+      'webgazerFaceFeedbackBox'
+    ];
+    
+    webgazerElements.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+
+    console.log("WebGazer fully dismantled.");
   }
 };
 
@@ -82,7 +118,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     initializeAuth();
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<User | false> => {
     try {
       const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
@@ -107,9 +143,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
           setIsAuthenticated(true);
           setUser(userData);
-          
+          setIsCalibrated(false);
           localStorage.setItem('auth_user', JSON.stringify(userData));
-          return true;
+          return userData;
         }
       }
       return false;
@@ -119,7 +155,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await shutdownWebGazer();
     setIsAuthenticated(false);
     setIsCalibrated(false);
     setUser(null);
