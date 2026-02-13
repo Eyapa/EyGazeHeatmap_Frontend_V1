@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { Upload, Trash2, ImageIcon, Tag, Users, Image, Map, Terminal, Eye, RefreshCw, Activity, Plus } from 'lucide-react';
-import { * } from '@app/';
 import { Button } from '@/app/components/ui/button';
 import { Card } from '@/app/components/ui/card';
 import { Input } from '@/app/components/ui/input';
