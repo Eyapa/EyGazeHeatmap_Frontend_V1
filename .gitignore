@@ -47,7 +47,6 @@ frontend/public/images/*
 .github/*
 .github/*/*
 
-.Dockerignore
 compose.private.yml
 
 # --- OTHERS ---
