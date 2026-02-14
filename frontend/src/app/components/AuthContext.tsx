@@ -154,7 +154,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsCalibrated(false);
     setUser(null);
     localStorage.removeItem('access_token');
-    if (tempUser?.role == 1) window.location.assign('/login');
+    if (tempUser?.role === 1) window.location.assign('/login');
   };
 
   return (

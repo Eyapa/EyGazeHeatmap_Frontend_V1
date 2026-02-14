@@ -105,7 +105,7 @@ export const UserRegistrationDialog = ({
             {
                 loading: 'Registering new user account...',
                 success: (data) => {
-                    if (window.location.pathname === '/login' && data.access_token && data.token_type == "bearer")
+                    if (window.location.pathname === '/login' && data.access_token && data.token_type === "bearer")
                         localStorage.setItem('access_token', data.access_token);
                     handleSuccess(payload);
                     setEmail("");
