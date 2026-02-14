@@ -138,7 +138,7 @@ async def request_limiter ( request: Request) -> bool:
     ip = get_remote_address(request)
     if ip == "127.0.0.1":
         limit = "1000/minute"
-    elif auth_header:
+    elif auth_header and auth_header.split(" ")[1] != "null":
         try:
             decoded_token = authService.decode_token(auth_header.split(" ")[1])
             if decoded_token["role"] == 2:
