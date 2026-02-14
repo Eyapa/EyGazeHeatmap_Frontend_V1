@@ -173,10 +173,7 @@ def check_authorization(request: Request) -> bool:
             rdict["status"] = True
             return rdict
         except HTTPException as e:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid authentication credentials."
-            )
+            pass
     return rdict
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
