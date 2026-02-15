@@ -181,7 +181,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     if payload["role"] != 1:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Please use user account to use user standarize api."
+            detail="Please use user account to use user standardize api."
         )
     return payload
 
@@ -226,7 +226,7 @@ def register(usercreate: UserCreate, authorize = Depends(check_authorization), _
     if authorize['status']:
         if authorize["payload"]["role"] == 1:
             raise HTTPException(status_code=403, detail="Authenticated users cannot register new accounts")
-    elif usercreate.role == 2 and not authorize['status'] and authorize["payload"]["role"] != 2:
+    elif usercreate.role == 2 and (not authorize['status'] or authorize.get("payload", {}).get("role") != 2):
         raise HTTPException(status_code=403, detail="Only admins can create admin accounts")
     elif not db.findUser(usercreate.email).empty:
         raise HTTPException(status_code=500, detail="Email already used, please use other email to register new user account.")

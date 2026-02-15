@@ -6,7 +6,7 @@ import { Card } from '@/app/components/ui/card';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { useAuth } from '@/app/components/AuthContext';
-import { UserRegistrationDialog } from '@/app/components/DialogModals'
+import { UserRegistrationDialog } from '@/app/components/DialogModals';
 
 export function Login() {
   const [email, setEmail] = useState('');

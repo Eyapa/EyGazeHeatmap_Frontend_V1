@@ -30,10 +30,10 @@ This project uses a base `compose.yml` and a production override `compose.prod.y
 
 ```bash
 # Build the images (using the production overrides)
-docker compose -f compose.yml -f compose.prod.yml build --no-cache
+docker compose -f compose.prod.yml build --no-cache
 
 # Start the containers in detached mode
-docker compose -f compose.yml -f compose.prod.yml up -d
+docker compose -f compose.prod.yml up -d
 ```
 
 ### Step 3: Verify Deployment
@@ -90,13 +90,18 @@ cd frontend
 ```bash
 npm install
 ```
+3. Use vite.config.dev.ts for vite configuration.
+```bash
+mv vite.config.ts vite.config.prod.ts
+cp vite.config.dev.ts vite.config.ts
+```
 
-3. Start the development server (HTTPS enabled for WebGazer):
+4. Start the development server (HTTPS enabled for WebGazer):
 ```bash
 npm run dev
 ```
 
-4. Open `https://localhost:3000` in your browser.
+5. Open `https://localhost:3000` in your browser.
 - *Note: Accept the "Unsafe/Advanced" certificate warning to allow camera access.*
 
 # 3. Maintenance Commands
@@ -113,7 +118,7 @@ rm -rf backend/database.db
 touch backend/database.db
 
 # Restart
-docker compose -f compose.yml -f compose.prod.yml up -d
+docker compose -f compose.prod.yml up -d
 ```
 
 ## Project Structure Notes
