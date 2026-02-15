@@ -90,8 +90,13 @@ cd frontend
 ```bash
 npm install
 ```
+3. Use vite.config.dev.ts for vite configuration.
+```bash
+mv vite.config.ts vite.config.prod.ts
+cp vite.config.dev.ts vite.config.ts
+```
 
-3. Start the development server (HTTPS enabled for WebGazer):
+5. Start the development server (HTTPS enabled for WebGazer):
 ```bash
 npm run dev
 ```
