@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Play, Pause, RotateCcw, CheckCircle2, X, Monitor, User, Eye, MousePointer2, MoveLeft } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Card } from '@/app/components/ui/card';
 import { toast } from 'sonner';
 import { useAuth } from './AuthContext';
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogTrigger,
-} from '@/app/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTrigger } from '@/app/components/ui/alert-dialog';
+import { AlertDialogDescription, AlertDialogTitle } from '@radix-ui/react-alert-dialog';
 
 const CALIBRATION_POINTS = [
   { x: 10, y: 10 }, { x: 50, y: 10 }, { x: 90, y: 10 },
@@ -156,28 +154,24 @@ export function LiveTracking() {
 
   return (
     <div className="space-y-6 relative">
-      
-     
       <AlertDialog open={isInstructionModalOpen} onOpenChange={setIsInstructionModalOpen}>
         <AlertDialogContent className="!max-w-4xl bg-indigo-100/95 backdrop-blur-xl border-slate-700 text-white p-0 overflow-hidden shadow-2xl">
-            
-           
-            <button 
+            <AlertDialogHeader className="sr-only">
+                <AlertDialogTitle>Calibration Instructions</AlertDialogTitle>
+                <AlertDialogDescription>
+                    Follow the dots on the screen and click each one nine times to calibrate the eye tracker.
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <Button 
                 onClick={() => setIsInstructionModalOpen(false)}
                 className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"
             >
                 <X className="w-8 h-8" />
-            </button>
+            </Button>
 
             <div className="flex flex-col items-center justify-center py-16 px-8 space-y-16">
-                
-               
-                <h2 className="text-5xl font-bold text-violet-700 tracking-tight">Calibration</h2>
-
-             
+                <h2 className="text-5xl font-bold text-violet-700 tracking-tight">Calibration</h2>   
                 <div className="flex items-center justify-center gap-12 md:gap-24 w-full">
-                    
-                   
                     <div className="relative group">
                         <Monitor strokeWidth={1.5} className="w-32 h-32 text-slate-600" />
                         <div className="absolute inset-0 flex items-center justify-center pb-2">
@@ -193,14 +187,11 @@ export function LiveTracking() {
                         </div>
                     </div>
 
-                   
                     <div className="relative flex items-center">
                          
                         <div className="absolute -left-8 w-12 h-12 rounded-full bg-indigo-700/20" />
-                        <div className="absolute -left-4 w-12 h-12 rounded-full bg-indigo-700/40" />
-                        \
+                        <div className="abs olute -left-4 w-12 h-12 rounded-full bg-indigo-700/40" />
                         <div className="w-14 h-14 rounded-full bg-indigo-600 shadow-[0_0_20px_rgba(75, 0, 130, 1.0)] flex items-center justify-center z-10">
-                            
                             <MousePointer2 className="w-8 h-8 text-white fill-white absolute -bottom-4 -right-4 drop-shadow-md" />
                         </div>
                     </div>
@@ -221,12 +212,11 @@ export function LiveTracking() {
                 >
                     Start Calibration
                 </Button>
-
             </div>
         </AlertDialogContent>
       </AlertDialog>
 
-      {isCalibrating && (
+      {isCalibrating && createPortal(
         <div className="fixed inset-0 z-[9999] bg-slate-950/90 cursor-crosshair">
           {CALIBRATION_POINTS.map((point, index) => {
             const clicks = clickCounts[index] || 0;
@@ -241,7 +231,7 @@ export function LiveTracking() {
             if (!shouldShow) return null;
 
             return (
-              <button
+              <Button
                 key={index}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -260,17 +250,17 @@ export function LiveTracking() {
                 }`}
               >
                 {!isDone && <div className="w-2 h-2 bg-white rounded-full" />}
-              </button>
+              </Button>
             );
           })}
           
-          <div className="absolute top-12 left-1/2 -translate-x-1/2 pointer-events-none text-center space-y-2">
+          <div className="absolute top-3/4 left-1/2 -translate-x-1/2 pointer-events-none text-center space-y-2">
              <h3 className="text-3xl font-bold text-white drop-shadow-lg">Calibration in Progress</h3>
              <p className="text-cyan-200 text-lg bg-black/40 px-6 py-2 rounded-full backdrop-blur-sm">
                 Look at the dot and click it {CLICKS_REQUIRED} times
              </p>
           </div>
-      </div>
+      </div>,document.body
       )}
 
       <div className="flex items-center justify-between">
