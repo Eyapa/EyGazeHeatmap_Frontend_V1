@@ -47,6 +47,9 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    environment:
+      - PUBLIC_IP=${PUBLIC_IP}
+      - DOLLAR=$$
     depends_on:
       - backend
     volumes:
